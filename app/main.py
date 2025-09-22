@@ -1,13 +1,13 @@
 from fastapi import FastAPI, Query
-from services.services import fetch_github_user_data, fetch_city_weather_data
+from app.github_service import fetch_github_user_data
+from app.weather_service import fetch_city_weather_data
 
-app = FastAPI(title="API Service")
 
+app = FastAPI()
 
 @app.get("/get_github_user")
-def get_github_user(username: str = Query(..., description="GitHub username")):
+def get_github_user(username: str = Query(...)):
     return fetch_github_user_data(username)
-
 
 @app.get("/get_weather/{city}")
 def get_weather(city: str):

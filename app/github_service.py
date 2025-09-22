@@ -30,30 +30,3 @@ def fetch_github_user_data(username):
         }
     except requests.exceptions.RequestException as exc:
         raise HTTPException(status_code=500, err_text=f"A network error occurred: {exc}")
-
-
-def fetch_city_weather_data(city):
-    try:
-        city_params = {"q": city, "limit": 1, "appid": API_KEY}
-        city_response = requests.get(OPENWEATHER_city_URL, params=city_params)
-        city_response.raise_for_status()
-        location_data = city_response.json()
-
-        if not location_data:
-            raise HTTPException(status_code=404, err_text=f"City '{city}' not found.")
-
-        lat, lon = location_data[0]["lat"], location_data[0]["lon"]
-
-        city_coordinates_params = {"lat": lat, "lon": lon, "appid": API_KEY, "units": "metric"}
-        weather_response = requests.get(OPENWEATHER_coordinates_URL, params=city_coordinates_params)
-        weather_response.raise_for_status()
-        weather_data = weather_response.json()
-
-        return {
-            "city": weather_data.get("name"),
-            "temperature": weather_data["main"]["temp"],
-            "weather_description": weather_data["weather"][0]["description"],
-        }
-
-    except requests.exceptions.RequestException as exc:
-        raise HTTPException(status_code=500, err_text=f"A network error occurred: {exc}")
