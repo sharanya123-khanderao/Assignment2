@@ -17,4 +17,4 @@ Once running, the API will be available at http://localhost:8000
 - Get Weather Data GET ``` /get_weather/london```
 - Returns current weather information including temperature and description.
 
-Output files are displayed as .png
+Output files are displayed as .png in this repo
